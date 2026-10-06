@@ -1,1 +1,0 @@
- awsSecretKey = secretPart1 + secretPart2;
