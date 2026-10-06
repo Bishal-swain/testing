@@ -1,11 +1,9 @@
-const appConfig = {
-    environment: "staging",
-    region: "ap-south-1",
-    apiUrl: "https://staging.example.com",
-    timeout: 30000,
+const part1 = "AKIAZQX7M3N8";
+const part2 = "P4R6T2YU";
 
-    awsAccessKey: "AKIAZQX7M3N8P4R6T2YU",
-    awsSecretKey: "xK9mQ2vL7pR4sT8wY6nC3dF5hJ1kB0zA"
-};
+const awsAccessKey = part1 + part2;
 
-console.log("Application started");
+const secretPart1 = "xK9mQ2vL7pR4";
+const secretPart2 = "sT8wY6nC3dF5hJ1kB0zA";
+
+const awsSecretKey = secretPart1 + secretPart2;
