@@ -20,8 +20,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # 1. Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      # 2. Install Gitleaks CLI
+      - name: Install Gitleaks
+        run: |
+          GITLEAKS_VERSION="8.30.1"
+
+          curl -sSfL \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            -o gitleaks.tar.gz
+
+          tar -xzf gitleaks.tar.gz
+
+          sudo mv gitleaks /usr/local/bin/gitleaks
+
+          gitleaks version
+
+      # 3. Scan the repository
       - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2
+        run: |
+          gitleaks git . \
+            --redact \
+            --report-format json \
+            --report-path gitleaks-report.json
+
+      # 4. Upload the report even if the scan fails
+      - name: Upload Gitleaks Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-report
+          path: gitleaks-report.json
